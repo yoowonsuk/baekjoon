@@ -10,13 +10,12 @@ int fibonacci(int n)
   
    if(n == -1)
      return 1;
+   else if(!n)
+     return 0;
    else if (arr[n])
      return arr[n];
-   if (!n)
-     return 0;
    else
-     arr[n] = fibonacci(n-1) + fibonacci(n-2);
-   return arr[n];
+     return arr[n] = fibonacci(n-1) + fibonacci(n-2);
 }
 
 int main(void)

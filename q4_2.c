@@ -7,19 +7,18 @@
 int * fibonacci(int n)
 {
   static int arr[40][2] = {1, 0, 0, 1};
-  int i;
+  int * ptr1, * ptr2;
 
-    if (n == 0)
-      return arr[0];
-    else if (n == 1)
-      return arr[1];
+    if (arr[n][0] || arr[n][1])
+      return arr[n];
     else
-      for(i=2; i<=n; i++)
-      {
-        arr[i][0] = arr[i-1][0] + arr[i-2][0];
-        arr[i][1] = arr[i-1][1] + arr[i-2][1];
-      }
-    return arr[n];
+    {
+      ptr1 = fibonacci(n-1);
+      ptr2 = fibonacci(n-2);
+      arr[n][0] = *ptr1 + *ptr2;
+      arr[n][1] = *(ptr1+1) + *(ptr2+1);
+      return arr[n];
+    }
 }
 
 int main(void)

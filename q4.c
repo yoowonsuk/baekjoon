@@ -24,7 +24,7 @@ int main(void)
     scanf("%d", &figure);
     fibonacci(figure);
     printf("%d %d\n", cnt0, cnt1);
-    cnt0 = cnt1 - 0;
+    cnt0 = cnt1 = 0;
   }
   return 0;
 }

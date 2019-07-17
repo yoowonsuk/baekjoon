@@ -14,8 +14,6 @@ int fibonacci(int n)
      return arr[n];
    if (!n)
      return 0;
-   else if (n == 1)
-     return 1;
    else
      arr[n] = fibonacci(n-1) + fibonacci(n-2);
    return arr[n];

@@ -6,7 +6,7 @@
 
 int fibonacci(int n)
 {
-  static int arr[40] = {0, 1};
+  static int arr[80] = {0, 1};
   
    if(n == -1)
      return 1;

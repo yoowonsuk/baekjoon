@@ -6,7 +6,7 @@
 
 int * fibonacci(int n)
 {
-  static int arr[40][2] = {1, 0, 0, 1};
+  static int arr[80][2] = {1, 0, 0, 1};
   int * ptr1, * ptr2;
 
     if (arr[n][0] || arr[n][1])

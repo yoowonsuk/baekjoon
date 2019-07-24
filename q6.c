@@ -6,9 +6,8 @@
 #define BUL_NUM 100
 #define WAY_NUM 100
 
-int search(int * bptr, int num, int (*mptr)[WAY_NUM], int way, int desti)
+int search(int * bptr, int (*mptr)[WAY_NUM], int way, int desti, int * arr)
 {
-  int arr[BUL_NUM] = {0};
   int i, max = 0, result;
 
   if(arr[desti])
@@ -17,7 +16,7 @@ int search(int * bptr, int num, int (*mptr)[WAY_NUM], int way, int desti)
   for(i=0; i<way; i++)
     if(mptr[i][desti])
     {
-      result = search(bptr, num, mptr, way, i);
+      result = search(bptr, mptr, way, i, arr);
       if(result > max)
         max = result;
     }
@@ -31,6 +30,7 @@ int main(void)
    int i, j, cnt, num, xnum, ynum, desti, way;
    int bld[BUL_NUM];
    int met[WAY_NUM][WAY_NUM];
+   int arr[BUL_NUM];
 
    scanf("%d", &cnt);
    while(cnt--)
@@ -43,6 +43,9 @@ int main(void)
          met[i][j] = 0;
 
      for(i=0; i<num; i++)
+       arr[i] = 0;
+
+     for(i=0; i<num; i++)
        scanf("%d", &bld[i]);
 
      for(i=0; i<way; i++)
@@ -53,7 +56,7 @@ int main(void)
 
      scanf("%d", &desti);
 
-     printf("%d\n", search(bld, num, met, way, desti-1));
+     printf("%d\n", search(bld, met, way, desti-1, arr));
    }
    return 0;
 }

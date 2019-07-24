@@ -3,60 +3,91 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
-#define BUL_NUM 100
-#define WAY_NUM 100
 
-int search(int * bptr, int (*mptr)[WAY_NUM], int num, int desti, int * arr)
+#define BLD_NUM 100
+
+int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
 {
+  int stack[1000], rear=0, i=0, max[1000]={0}, next = desti;
+
+  while(1)
+  {
+    while(i < node)
+    {
+      if(mptr[i][next])
+      {
+        stack[rear++] = next;
+        next = i;
+        i=0;
+        continue;
+      }
+      i++;
+     }
+
+    if(dp[next] < bptr[next] + max[next])
+      dp[next] = bptr[next] + max[next];
+
+    if(!rear)
+      return dp[desti];
+
+    if(max[stack[--rear]] < dp[next])
+      max[stack[rear]] = dp[next];
+    i = next+1;
+    next = stack[rear];
+  }
+
+  /*
   int i, max = 0, result;
 
-  if(arr[desti])
-    return arr[desti];
+  if(dp[desti])
+    return dp[desti];
   
-  for(i=0; i<num; i++)
+  for(i=0; i<node; i++)
     if(mptr[i][desti])
     {
-      result = search(bptr, mptr, num, i, arr);
+      result = search(mptr, bptr, dp, node, i);
       if(result > max)
         max = result;
     }
 
-  if(arr[desti] < bptr[desti] + max)
-    arr[desti] = bptr[desti] + max;
-  return arr[desti];
+  if(dp[desti] < bptr[desti] + max)
+    dp[desti] = bptr[desti] + max;
+  return dp[desti];
+  */
 }
 
 int main(void)
 {
-   int i, j, cnt, num, xnum, ynum, desti, way;
-   int bld[BUL_NUM];
-   int met[WAY_NUM][WAY_NUM];
-   int arr[BUL_NUM];
+   int i, j, cnt, node, way, desti, x, y;
+   int bld[BLD_NUM];
+   int mat[BLD_NUM][BLD_NUM];
+   int dp[BLD_NUM];
 
    scanf("%d", &cnt);
    while(cnt--)
    {
      // memset(met, 0, sizeof(met)); more than needs
-     scanf("%d %d", &num, &way);
+     scanf("%d %d", &node, &way);
 
-     for(i=0; i<num; i++)
-       for(j=0; j<num; j++)
-         met[i][j] = 0;
-      for(i=0; i<num; i++)
-       arr[i] = 0;
+     for(i=0; i<node; i++)
+       for(j=0; j<node; j++)
+         mat[i][j] = 0;
+     
+     for(i=0; i<node; i++)
+       dp[i] = 0;
 
-     for(i=0; i<num; i++)
+     for(i=0; i<node; i++)
        scanf("%d", &bld[i]);
 
      for(i=0; i<way; i++)
      {
-       scanf("%d %d", &xnum, &ynum);
-       met[xnum-1][ynum-1] = 1;
+       scanf("%d %d", &x, &y);
+       mat[x-1][y-1] = 1;
      }
 
      scanf("%d", &desti);
 
-     printf("%d\n", search(bld, met, num, desti-1, arr));
+     printf("%d\n", search(mat, bld, dp, node, desti-1));
    }
    return 0;
 }

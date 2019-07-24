@@ -6,14 +6,14 @@
 #define BUL_NUM 100
 #define WAY_NUM 100
 
-int search(int * bptr, int (*mptr)[WAY_NUM], int way, int desti, int * arr)
+int search(int * bptr, int (*mptr)[WAY_NUM], int num, int desti, int * arr)
 {
   int i, max = 0, result;
 
   if(arr[desti])
     return arr[desti];
   
-  for(i=0; i<way; i++)
+  for(i=0; i<num; i++)
     if(mptr[i][desti])
     {
       result = search(bptr, mptr, way, i, arr);
@@ -56,7 +56,7 @@ int main(void)
 
      scanf("%d", &desti);
 
-     printf("%d\n", search(bld, met, way, desti-1, arr));
+     printf("%d\n", search(bld, met, num, desti-1, arr));
    }
    return 0;
 }

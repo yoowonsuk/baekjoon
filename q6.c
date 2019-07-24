@@ -21,7 +21,8 @@ int search(int * bptr, int (*mptr)[WAY_NUM], int num, int desti, int * arr)
         max = result;
     }
 
-  arr[desti] = bptr[desti] + max;
+  if(arr[desti] > bptr[desti] + max)
+    arr[desti] = bptr[desit] + max;
   return arr[desti];
 }
 
@@ -38,8 +39,8 @@ int main(void)
      // memset(met, 0, sizeof(met)); more than needs
      scanf("%d %d", &num, &way);
 
-     for(i=0; i<way; i++)
-       for(j=0; j<way; j++)
+     for(i=0; i<num; i++)
+       for(j=0; j<num; j++)
          met[i][j] = 0;
 
      for(i=0; i<num; i++)

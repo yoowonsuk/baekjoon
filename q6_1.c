@@ -14,22 +14,28 @@ int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
   {
     while(i < node)
     {
-      if(dp[next] != -1)
+     /* if(dp[next] != -1)
       {
         if(max[stack[--rear]] < dp[next])
           max[stack[rear]] = dp[next];
         i = next + 1;
         next = stack[rear];
-      }
+      }*/
 
       if(mptr[i][next])
       {
+        if(dp[i] > max[next])
+        {
+          max[next] = dp[i];
+          i++;
+          continue;
+        }
+
         stack[rear++] = next;
         next = i;
         i=0;
         continue;
       }
-
       i++;
     }
 

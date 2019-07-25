@@ -30,7 +30,7 @@ int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
           i++;
           continue;
         }
-
+        
         stack[rear++] = next;
         next = i;
         i=0;

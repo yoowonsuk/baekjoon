@@ -21,7 +21,7 @@ int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
         max = result;
     }
 
-  if(dp[desti] < bptr[desti] + max)
+//  if(dp[desti] < bptr[desti] + max)
     dp[desti] = bptr[desti] + max;
   return dp[desti];
 }

@@ -14,6 +14,13 @@ int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
   {
     while(i < node)
     {
+      if(dp[next] != -1)
+      {
+        max[stack[--rear]] = dp[next];
+        i = next+1;
+        next = stack[rear];
+      }
+
       if(mptr[i][next])
       {
         stack[rear++] = next;
@@ -74,7 +81,7 @@ int main(void)
          mat[i][j] = 0;
      
      for(i=0; i<node; i++)
-       dp[i] = 0;
+       dp[i] = -1;
 
      for(i=0; i<node; i++)
        scanf("%d", &bld[i]);

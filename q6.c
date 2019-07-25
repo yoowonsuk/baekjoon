@@ -10,7 +10,8 @@ int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
 {
   int i, max = 0, result;
 
-  if(dp[desti])
+//if(dp[desti])
+  if(dp[desti] != -1)
     return dp[desti];
   
   for(i=0; i<node; i++)
@@ -44,7 +45,7 @@ int main(void)
          mat[i][j] = 0;
      
      for(i=0; i<node; i++)
-       dp[i] = 0;
+       dp[i] = -1; // bld can be 0
 
      for(i=0; i<node; i++)
        scanf("%d", &bld[i]);

@@ -17,7 +17,7 @@ int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
       if(dp[next] != -1)
       {
         max[stack[--rear]] = dp[next];
-        i = next+1;
+        i = next + 1;
         next = stack[rear];
       }
 
@@ -28,8 +28,9 @@ int search(int (*mptr)[BLD_NUM], int bptr[], int dp[], int node, int desti)
         i=0;
         continue;
       }
+
       i++;
-     }
+    }
 
 //    if(dp[next] < bptr[next] + max[next])
       dp[next] = bptr[next] + max[next];

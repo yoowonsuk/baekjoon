@@ -26,7 +26,7 @@ void solution(int start)
     a[i] = min(a[i], c[i-1]+1);
     if(i-1>0)
       if(map[0][i-1]+map[0][i-2] <= W && map[1][i-1]+map[1][i-2] <= W)
-        a[i] = min(a[i], a[i-2]+2)
+        a[i] = min(a[i], a[i-2]+2);
 
     b[i] = a[i] + 1;
     b[i] = min(b[i], b[i-1]+2);

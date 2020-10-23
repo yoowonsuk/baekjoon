@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-static int map[10000][10000];
+static int map[2][10000];
 static int N, W;
 int a[10000], b[10000], c[10000];
 
@@ -66,32 +66,44 @@ int main(void)
 
     // [0][0] 제외
     // b[0] = 0; no meaning
-    a[1] = 1;
-    b[1] = 2;
-    if(map[1][0] + map[1][1] <= W)
-      c[1] = 1;
-    else
-      c[1] = 2;
-    solution(1);
-    result = result < c[N-1]+1 ? result : c[N-1]+1;
+    if(N > 1)
+    {
+      if(map[0][0] + map[0][N-1] <= W)
+      {
+        a[1] = 1;
+        b[1] = 2;
+        if(map[1][0] + map[1][1] <= W)
+          c[1] = 1;
+        else
+          c[1] = 2;
+        solution(1);
+        result = result < c[N-1]+1 ? result : c[N-1]+1;
+      }
 
-    // [1][0] 제외
-    // b[0] = 1; no meaning
-    // c[0] = 0; no meaning
-    // a[1] = 1; doesn't really need
-    if(map[0][0] + map[0][1] <= W)
-      b[1] = 1;
-    else
-      b[1] = 2;
-    c[1] = 2;
-    solution(1);
-    result = result < b[N-1]+1 ? result : b[N-1]+1;
+      // [1][0] 제외
+      // b[0] = 1; no meaning
+      // c[0] = 0; no meaning
+      // a[1] = 1; doesn't really need
+      if(map[1][0] + map[1][N-1] <= W)
+      {
+        if(map[0][0] + map[0][1] <= W)
+          b[1] = 1;
+        else
+          b[1] = 2;
+        c[1] = 2;
+        solution(1);
+        result = result < b[N-1]+1 ? result : b[N-1]+1;
+      }
 
-    // [0][0] & [1][0] 제외
-    a[1] = 0;
-    c[1] = b[1] = 1;
-    solution(1);
-    result = result < a[N-1]+2 ? result : a[N-1]+2;
+      // [0][0] & [1][0] 제외
+      if(map[0][0] + map[0][N-1] <= W && map[1][0] + map[1][N-1] <= W)
+      {
+        a[1] = 0;
+        c[1] = b[1] = 1;
+        solution(1);
+        result = result < a[N-1]+2 ? result : a[N-1]+2;
+      }
+    }
 
     printf("%d\n", result);
   }

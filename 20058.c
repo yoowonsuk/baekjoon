@@ -1,146 +1,165 @@
 #include <stdio.h>
-#include <math.h>
 
-int A[64][64] = {0};
-int N;
-int Q;
-int L[6] = {0};
-int temp[64][64] = {0};
+#define MAX 64
+#define NRANGE 6
 
-/*
-int pow (int a, int n)
+//#define max(a, b) (((a) > (b)) ? (a) : (b))
+//doesn't work in this case due to visited
+
+int max(int x, int y)
+{
+	return x > y ? x : y;
+}
+
+int N, Q;
+int A[MAX][MAX], temp[MAX][MAX];
+int L[NRANGE];
+int visited[MAX][MAX];
+const int dx[] = {0, 0, -1, 1};
+const int dy[] = {-1, 1, 0, 0};
+
+int inRange(int x, int y)
+{
+	return x >= 0 && y >= 0 && x < N && y < N;
+}
+
+int dfs(int x, int y)
 {
 	int i;
-	int result = 1;
+	int ret = 1;
+	visited[x][y] = 1;
+	for(i=0; i<4; i++)
+	{
+		int ny = y + dy[i];
+		int nx = x + dx[i];
 
-	for(i=0; i<n; i++)
-		result *= a;
-	return result;
+		if(inRange(nx, ny) && !visited[nx][ny] && A[nx][ny] > 0)
+			ret += dfs(nx, ny);
+	}
+	return ret;
 }
-*/
 
-void rotate(int n, int m, int L)
+int getBiggest()
+{
+	int ret = 0;
+	int i, j;
+
+	for(i=0; i<N; i++)
+		for(j=0; j<N; j++)
+			if(A[i][j] > 0 && !visited[i][j])
+				ret = max(ret, dfs(i, j));
+	return ret;
+}
+
+int getSum()
 {
 	int i, j;
-	int temp1 = 0, temp2=0;
+	int ret = 0;
 
-	L = pow(2, L);
-	for(i=n; i<n+L; i++)
+	for(i=0; i<N; i++)
+		for(j=0; j<N; j++)
+			ret += A[i][j];
+	return ret;
+}
+
+void melt(void)
+{
+	int i, j, k;
+	int cnt;
+
+	for(i=0; i<N; i++)
+		for(j=0; j<N; j++)
+		{
+			cnt = 0;
+			for(k=0; k<4; k++)
+			{
+				int nx = i + dx[k];
+				int ny = j + dy[k];
+				if(!inRange(nx, ny))
+					continue;
+				else if(temp[nx][ny] > 0)
+					cnt++;
+			}
+
+			A[i][j] = cnt<3 ? (temp[i][j] - 1) : temp[i][j];
+
+		}
+}
+
+
+
+
+void rotate(int x, int y, int L)
+{
+	int i, j;
+	int ys=0, xa=0;
+
+	x *= L, y *= L;
+	for(i=0; i<L; i++)
 	{
-		for(j=m; j<m+L; j++)
-			temp[n+(temp1++)][m+L-1-temp2] = A[i][j];
-		
-		temp2++;
-		temp1 = 0;
+		for(j=0; j<L; j++)
+		{
+			temp[x+(xa++)][y+L-1-ys] =A[x+i][y+j];
+		}
+		ys++;
+		xa = 0;
 	}
-	for(i=0; i<8; i++)
+	/*
+	for(i=0; i<N; i++)
 	{
-		for(j=0; j<8; j++)
+		for(j=0; j<N; j++)
 			printf("%d ", temp[i][j]);
 		printf("\n");
 	}
+	*/
+	return;
+}
+
+void solve(int L)
+{
+	int i, j;
+
+	L = (1<<L);
+	for(i = 0; i<N/L; i++)
+		for(j=0; j<N/L; j++)
+			rotate(i, j, L); // in temp
+/*
+	for(i=0; i<N; i++)
+	{
+		for(j=0; j<N; j++)
+			printf("%d ", temp[i][j]);
+		printf("\n");
+	}
+*/
+	melt();
 }
 
 int main(void)
 {
-	int i, j, k;
-	int count = 0, sum = 0;
+	int i, j;
+	
 
 	scanf("%d %d", &N, &Q);
+	N = (1<<N);
 
-	int n = pow(2, N);
-	int m = 0;
-	for(i=0; i<n; i++)
-		for(j=0; j<n; j++)
-			scanf("%d ", &A[i][j]);
+	for(i=0; i<N; i++)
+		for(j=0; j<N; j++)
+			scanf("%d", &A[i][j]);
 
-	/*
-	for(i=0; i<Q; i++)
-		scanf("%d", &L[i]);
-	*/
 	for(i=0; i<Q; i++)
 	{
 		scanf("%d", &L[i]);
-		/*
-		for(j=0; j<n; j++)
-			for(k=0; k<n; k++)
-				temp[k][n-j] = A[j][k];
-		*/
-		m = pow(2, L[i]);
-		m = n/m; // how many rotate = m*m
-
-		for(j=0; j<m; j++)
-			for(k=0; k<m; k++)
-				rotate(2*j, 2*k, L[i]);
-		
-		// edge
-		/*
-		for(j=0; j<n; j++)
-		{
-			A[0][j] = temp[0][j] -1;
-			A[n-1][j] = temp[n-1][j] -1;
-			A[j][0] = temp[j][0] -1;
-			A[j][n-1] = temp[j][n-1] - 1;
-		}
-		*/
-
-		A[0][0] = temp[0][0] - 1;
-		A[0][n-1] = temp[0][n-1] - 1;
-		A[n-1][0] = temp[n-1][0] - 1;
-		A[n-1][n-1] = temp[n-1][n-1] - 1;
-
-		for(j=1; j<n-1; j++)
-		{
-			if(temp[0][j] == 0)
-				A[0][j] = 0;
-			else if(temp[0][j-1] != 0 && temp[0][j+1] != 0)
-				A[0][j] = temp[1][j] > 0 ? temp[0][j] : temp[0][j] - 1;
-			else
-				A[0][j] = temp[0][j] - 1;
-
-			if(temp[n-1][j] == 0)
-				A[n-1][j] = 0;
-			else if(temp[n-1][j-1] != 0 && temp[n-1][j+1] != 0)
-				A[n-1][j] = temp[n-2][j] > 0 ? temp[n-1][j] : temp[n-1][j] - 1;
-			else
-				A[n-1][j] = temp[n-1][j] - 1;
-
-			if(temp[j][0] == 0)
-				A[j][0] = 0;
-			else if(temp[j-1][0] != 0 && temp[j+1][0] != 0)
-				A[j][0] = temp[j][1] > 0 ? temp[j][0] : temp[j][0] - 1;
-			else
-				A[j][0] = temp[j][0] - 1;
-
-			if(temp[j][n-1] == 0)
-				A[j][n-1] = 0;
-			else if(temp[j-1][n-1] != 0 && temp[j+1][n-1] != 0)
-				A[j][n-1] = temp[j][n-2] > 0 ? temp[j][n-1] : temp[j][n-1] - 1;
-			else
-				A[j][n-1] = temp[j][n-1] - 1;
-		}
-		// inner
-		for(j=1; j<n-1; j++)
-			for(k=1; k<n-1; k++)
-			{
-				if(temp[j-1][k] != 0 && temp[j+1][k] != 0)
-				{
-					if(temp[j][k-1] != 0 && temp[j][k+1] != 0)
-						A[j][k] = temp[j][k];
-				}
-				else
-					A[j][k] = temp[j][k] - 1;
-			}
+		solve(L[i]);
 	}
 
-	for(i=0; i<n; i++)
-		for(j=0; j<n; j++)
-		{
-			sum += A[i][j];
-			if(0 < A[i][j])
-				count++;
-		}
-
-	printf("%d\n%d\n", sum, count);
+	for(i=0; i<N; i++)
+	{
+		for(j=0; j<N; j++)
+			printf("%d ", A[i][j]);
+		printf("\n");
+	}
+	printf("%d %d", getSum(), getBiggest());
 	return 0;
 }
+
+

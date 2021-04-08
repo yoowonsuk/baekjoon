@@ -80,8 +80,11 @@ void melt(void)
 				else if(temp[nx][ny] > 0)
 					cnt++;
 			}
-
-			A[i][j] = cnt<3 ? (temp[i][j] - 1) : temp[i][j];
+			
+			if(temp[i][j])
+				A[i][j] = cnt<3 ? (temp[i][j] - 1) : temp[i][j];
+			else
+				A[i][j] = 0;
 
 		}
 }
@@ -152,12 +155,14 @@ int main(void)
 		solve(L[i]);
 	}
 
+	/*
 	for(i=0; i<N; i++)
 	{
 		for(j=0; j<N; j++)
 			printf("%d ", A[i][j]);
 		printf("\n");
 	}
+	*/
 	printf("%d %d", getSum(), getBiggest());
 	return 0;
 }

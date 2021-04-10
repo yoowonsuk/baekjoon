@@ -41,11 +41,11 @@ void aftermove()
 			{
 				//Fireball temp = {i, j, map[i][j].m, map[i][j].s, map[i][j].d};
 				//fire[M++] = temp;
-				fire[M++].r = i;
+				fire[M].r = i;
 				fire[M].c = j;
 				fire[M].m = map[i][j].m;
 				fire[M].s = map[i][j].s;
-				fire[M].d = map[i][j].d;
+				fire[M++].d = map[i][j].d;
 				time++;
 			}
 			else if(map[i][j].count > 1)
@@ -57,11 +57,11 @@ void aftermove()
 					{
 						//Fireball temp = {i, j, map[i][j].m/5, map[i][j].s/map[i][j].count, k};
 						//fire[M++] = temp;
-						fire[M++].r = i;
+						fire[M].r = i;
 						fire[M].c = j;
 						fire[M].m = map[i][j].m / 5;
 						fire[M].s = map[i][j].s / map[i][j].count;
-						fire[M].d = k;
+						fire[M++].d = k;
 					}
 				else
 				{
@@ -69,11 +69,11 @@ void aftermove()
 					{
 						//Fireball temp = {i, j, map[i][j].m/5, map[i][j].s/map[i][j].count, k};
 						//fire[M++] = temp;
-						fire[M++].r = i;
+						fire[M].r = i;
 						fire[M].c = j;
 						fire[M].m = map[i][j].m / 5;
 						fire[M].s = map[i][j].s / map[i][j].count;
-						fire[M].d = k;
+						fire[M++].d = k;
 					}
 				}
 				time++;

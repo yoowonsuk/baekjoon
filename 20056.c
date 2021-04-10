@@ -81,16 +81,24 @@ void move()
 			y -= N;
 		else if(y < 0)
 			y += N;
-		if(map[x][y].d % 2 == 0) // even
+		if(fire[M].d % 2 == 0) // even
 			map[x][y].even = 1;
 		else
 			map[x][y].odd = 1;
 
 		map[x][y].count++;
 		map[x][y].m += fire[M].m;
-		map[x][y].s = fire[M].s;
+		map[x][y].s += fire[M].s;
 		map[x][y].d = fire[M].d;
 	}
+
+	for(int i= 0; i<N; i++)
+	{
+		for(int j=0; j<N; j++)
+			printf("%d ", map[i][j].count);
+		printf("\n");
+	}
+			
 }
 
 void around()

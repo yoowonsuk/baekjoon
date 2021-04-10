@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define NMAX 50
+#define NMAX 51
 
 int N, M, K;
 

@@ -10,7 +10,7 @@ typedef struct
 	int r, c, m, s , d;
 } Fireball;
 
-Fireball fire[NMAX*NMAX];
+Fireball fire[10000];
 
 typedef struct
 {
@@ -106,14 +106,14 @@ void move()
 		map[x][y].s += fire[M].s;
 		map[x][y].d = fire[M].d;
 	}
-
+/*
 	for(int i= 0; i<N; i++)
 	{
 		for(int j=0; j<N; j++)
 			printf("%d ", map[i][j].count);
 		printf("\n");
 	}
-			
+*/			
 }
 
 void around()

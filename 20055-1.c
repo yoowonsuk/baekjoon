@@ -53,6 +53,7 @@ void goRobot()
 			if(!belt[i+1].A)
 				kcount++;
 		}
+	land();
 }
 
 int main(void)

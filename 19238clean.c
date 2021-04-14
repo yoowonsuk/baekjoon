@@ -102,9 +102,11 @@ void BFS(People * who)
 			}
 
 			visit[x][y].done = 1;
-			visit[x][y].dist = visit[temp.x][temp.y].dist + 1;
 			if(finish != 1)
+			{
+				visit[x][y].dist = visit[temp.x][temp.y].dist + 1;
 				q.push( (People) {x, y, -1, -1, -1} );
+			}
 			else
 				finish = 2;
 		}

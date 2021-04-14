@@ -166,7 +166,6 @@ void solve(void)
 		if(fuel == -1)
 			return;
 		find_cus();
-		printf("%d\n", first_cus);
 		go();
 	}
 }

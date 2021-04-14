@@ -57,7 +57,7 @@ void BFS(People * who)
 		temp = q.front();
 		q.pop();
 
-		if(finish && to_cus_fuel < visit[temp.x][temp.y].dist)
+		if(finish && to_cus_fuel == visit[temp.x][temp.y].dist)
 		{
 			person[first_cus].x = person[first_cus].y = -1;
 			return;

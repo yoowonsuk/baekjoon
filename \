@@ -49,12 +49,6 @@ void BFS(People * who)
 	q.push( (People) {who->x, who->y, -1, -1, -1} );
 	while(1)
 	{
-		if(finish && to_cus_fuel == visit[temp.x][temp.y].dist + 1)
-		{
-			person[first_cus].x = person[first_cus].y = -1;
-			return;
-		}
-		
 		if(q.empty())
 		{
 			fuel = -1;
@@ -62,7 +56,13 @@ void BFS(People * who)
 		}
 		temp = q.front();
 		q.pop();
-	 	
+
+		if(finish && to_cus_fuel == visit[temp.x][temp.y].dist)
+		{
+			person[first_cus].x = person[first_cus].y = -1;
+			return;
+		}
+
 		for(i=0; i<4; i++)
 		{	
 			x = temp.x + dx[i];
@@ -73,7 +73,6 @@ void BFS(People * who)
 				continue;
 			else if(mymap[x][y] == 1)
 				continue;
-
 			else if(who-> desx == -1)
 			{
 				for(j=0; j<M; j++)
@@ -88,7 +87,7 @@ void BFS(People * who)
 						} else if(finish && to_cus_fuel == visit[temp.x][temp.y].dist + 1)
 						{
 							if(person[first_cus].x > person[j].x)
-							first_cus = j;
+								first_cus = j;
 							else if(person[first_cus].x == person[j].x && person[first_cus].y > person[j].y)
 								first_cus = j;
 						}
@@ -166,7 +165,6 @@ void solve(void)
 		if(fuel == -1)
 			return;
 		find_cus();
-		printf("%d\n", first_cus);
 		go();
 	}
 }

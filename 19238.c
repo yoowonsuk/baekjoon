@@ -70,7 +70,6 @@ void BFS(People * who)
 			{
 				for(j=0; j<M; j++)
 				{
-					printf("%d %d %d %d %d\n", x, y, person[j].x, person[j].y, fuel);
 					if(person[j].x == x && person[j].y == y)
 					{
 						first_cus = j;
@@ -160,6 +159,7 @@ void find_cus()
 		{
 			first_cus = i;
 			to_cus_fuel = 0;
+			person[i].x = person[i].y = -1;
 			return;
 		}
 

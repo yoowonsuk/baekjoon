@@ -81,7 +81,6 @@ void BFS(People * who)
 					{
 						if(!finish)
 						{
-							finish = 1;
 							first_cus = j;
 							to_cus_fuel = visit[temp.x][temp.y].dist + 1;
 							
@@ -91,8 +90,8 @@ void BFS(People * who)
 								first_cus = j;
 							else if(person[first_cus].x == person[j].x && person[first_cus].y > person[j].y)
 								first_cus = j;
-							finish = 1;
 						}
+						finish = 1;
 					}
 				}
 			}

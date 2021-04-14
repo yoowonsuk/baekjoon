@@ -49,7 +49,7 @@ void BFS(People * who)
 	q.push( (People) {who->x, who->y, -1, -1, -1} );
 	while(1)
 	{
-		if(finish && to_cus_fuel == visit[temp.x][temp.y].dist + 1)
+		if( (q.empty() && finish && to_cus_fuel == visit[temp.x][temp.y].dist + 1) || (finish && to_cus_fuel == visit[q.front().x][q.front().y].dist) )
 		{
 			person[first_cus].x = person[first_cus].y = -1;
 			return;

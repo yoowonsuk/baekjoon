@@ -55,6 +55,7 @@ void BFS(People * who)
 		}
 		temp = q.front();
 		q.pop();
+
 		for(i=0; i<4; i++)
 		{
 			x = temp.x + dx[i];
@@ -68,6 +69,8 @@ void BFS(People * who)
 			else if(who-> desx == -1)
 			{
 				for(j=0; j<M; j++)
+				{
+					printf("%d %d %d %d %d\n", x, y, person[j].x, person[j].y, fuel);
 					if(person[j].x == x && person[j].y == y)
 					{
 						first_cus = j;
@@ -75,6 +78,7 @@ void BFS(People * who)
 						person[j].x = person[j].y = -1;
 						return;
 					}
+				}
 			}
 			else if(x == who->desx && y == who->desy)
 			{
@@ -150,6 +154,15 @@ void plen(void)
 
 void find_cus()
 {
+	int i;
+	for(i=0; i<M; i++)
+		if(person[i].x == taxi[0] && person[i].y == taxi[1])
+		{
+			first_cus = i;
+			to_cus_fuel = 0;
+			return;
+		}
+
 	People temp = {taxi[0], taxi[1], -1, -1, -1};
 	BFS( (People*) &temp );
 }
@@ -175,11 +188,9 @@ void solve(void)
 	{	
 		if(fuel == -1)
 			return;
-
 		find_cus();
 		go();
 	}
-
 }
 
 int main(void)

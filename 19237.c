@@ -7,7 +7,7 @@ int N, M, k;
 
 typedef struct
 {
-	int location, smell;
+	int location, who, smell;
 } Map;
 
 Map map[NMAX][NMAX];
@@ -41,46 +41,61 @@ void mapsmell(void)
 				map[i][j].smell--;
 
 	for(i=0; i<M; i++)
-		map[ shark[i].x ][ shark[i].y ].smell = k;
+		if(shark[i].alive)
+		{
+			map[ shark[i].x ][ shark[i].y ].smell = k;
+			map[ shark[i].x ][ shark[i].y ].who = i+1;
+		}
 }
 
 void solve(void)
 {
 	int i, j;
-	int xtemp, ytemp, goback, fight;
+	int xtemp, ytemp, fix, goback, fight;
 	left = M;
+	
+	for(i=0; i<M; i++)
+	{
+		map[ shark[i].x ][ shark[i].y ].smell = k;
+		map[ shark[i].x ][ shark[i].y ].who = i+1;
+	}
+
 	while(left > 1)
 	{
-	        count++;
-		mapsmell();	
-		for(i=0; i<left; i++)
+		for(i=0; i<M; i++)
 		{
 			if(!shark[i].alive)
 				continue;
+			fix = 0;
 			for(j=0; j<4; j++)
 			{
 				xtemp = shark[i].x + dx[ direct[ i ][ shark[i].direct ][j] ];
 				ytemp = shark[i].y + dy[ direct[ i ][ shark[i].direct ][j] ];
 
-				//printf("%d %d %d\n", xtemp, ytemp, i); // candidate
 				if(!isBound(xtemp, ytemp))
 					continue;
 				else if(map[xtemp][ytemp].smell)
+				{
+					if(!fix && i == map[xtemp][ytemp].who-1) // fix=0
+					{
+						fix++;
+						goback = direct[i][shark[i].direct][j];
+					}
 					continue;
+				}
 				else if(j==3)
 				{
-					goback = shark[i].direct/2;
-					if(!shark[i].direct%2) // even
-						goback++;
+					map[ shark[i].x ][ shark[i].y ].location = 0;
 					shark[i].x += dx[goback];
 					shark[i].y += dy[goback];
 					shark[i].direct = goback;
+					map[ shark[i].x ][ shark[i].y ].location = i+1;
 				}	
 				else if(map[xtemp][ytemp].location)
 				{	
 					fight = map[xtemp][ytemp].location;
 
-					if(i > fight) // lose
+					if(i > fight-1) // i lose
 					{
 						shark[i].alive = 0;
 						map[ shark[i].x ][ shark[i].y ].location = 0;
@@ -88,7 +103,11 @@ void solve(void)
 					else
 					{
 						shark[fight].alive = 0;
-						map[xtemp][ytemp].location = i;
+						map[ shark[i].x ][ shark[i].y ].location=0;
+						shark[i].x += xtemp;
+						shark[i].y += ytemp;
+						shark[i].direct = direct[i][shark[i].direct][j];
+						map[xtemp][ytemp].location = i+1;
 					}
 					left--;
 					break;
@@ -101,8 +120,8 @@ void solve(void)
 				shark[i].direct = direct[i][shark[i].direct][j];
 				break;
 			}
-			if(left <= 1)
-				break;
+			count++;
+			mapsmell();
 		}
 	}
 }
@@ -116,9 +135,7 @@ int main(void)
                 for(j=0; j<N; j++)
 		{
                         scanf("%d", &map[i][j].location); // where are they
-			if(!map[i][j].location)
-				continue;
-			else
+			if(map[i][j].location)
 			{
 				shark[ map[i][j].location -1 ].x = i;
 				shark[ map[i][j].location -1 ].y = j;

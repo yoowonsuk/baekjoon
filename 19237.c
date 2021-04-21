@@ -36,8 +36,9 @@ void go()
 {
 	int i, j;
 	int xtemp, ytemp, goback, done=0;
+	int haveto = left;
 
-	for(i=0; i<M && done != left; i++)
+	for(i=0; i<M && done != haveto; i++)
 	{
 		if(shark[i].dead)
 			continue;
@@ -136,6 +137,17 @@ void solve()
 	addsmell();
 	while(left > 1 && count <= 1000)
 	{
+		/*
+		printf("***start***\n");
+		for(a=0; a<N; a++)
+		{
+			for(b=0; b<N; b++)
+				printf("%d ", map[a][b].l);
+			printf("\n");
+		}
+		printf("***finish****\n");
+		*/
+
 		go();
 		removesmell();
 		addsmell();

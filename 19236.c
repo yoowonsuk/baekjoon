@@ -90,7 +90,7 @@ void moveFish()
 				else
 					d = 0;
 			}
-
+/*
 			{
 				int i, j;
 				for(i=0; i<4; i++)
@@ -100,7 +100,7 @@ void moveFish()
 					printf("\n");
 				}
 			}
-
+*/
 
 		}
 	}
@@ -119,6 +119,21 @@ void sharkTime(int x, int y, int nx, int ny, int fishNum, int which)
 		fish[fishNum-1].dead = 0;
 		map[x][y].a = -1;
 		map[nx][ny].a = fishNum;
+
+		/*
+	{
+		int i, j;
+		for(i=0; i<4; i++)
+		{
+			for(j=0; j<4; j++)
+				printf("%d(%d) ", map[i][j].a, map[i][j].b);
+			printf("\n");
+		}
+	}
+*/
+
+
+
 	}
 /*
 	{
@@ -134,22 +149,59 @@ void sharkTime(int x, int y, int nx, int ny, int fishNum, int which)
 	*/
 }
 
+void copyState(Map m1[][4], Map m2[][4], Fish f1[], Fish f2[])
+{
+	int i, j;
+
+	for(i=0; i<4; i++)
+		for(j=0; j<4; j++)
+			m2[i][j] = m1[i][j];
+	for(i=0; i<16; i++)
+		f2[i] = f1[i];
+}
+
 void DFS(int x, int y, int dir, int sum)
 {
 	int nx, ny;
 	int i;
 	int fishNum;
+	Map C_MAP[4][4];
+	Fish C_FISH[16];
 
 	ans = MAX(ans, sum);
 	{
 		nx = x + dx[dir];
-		ny = y + dx[dir];
+		ny = y + dy[dir];
 		if(!isBound(nx, ny))
 			return;
 	}
 	
+	copyState(map, C_MAP, fish, C_FISH);
 	moveFish();
-/*
+	//copyState(map, C_MAP, fish, C_FISH);
+	
+
+	{
+		printf("let's go %d\n", ans);
+		int i, j;
+		for(i=0; i<4; i++)
+		{
+			for(j=0; j<4; j++)
+				printf("%d(%d) ", map[i][j].a, map[i][j].b);
+			printf("\n");
+		}
+	}
+
+
+	for(i=0; i<3; i++)
+	{
+		if(map[nx][ny].a)
+		{
+			fishNum = map[nx][ny].a;
+			sharkTime(x, y, nx, ny, fishNum, 1);
+
+		printf("before1\n");
+			
 	{
 		int i, j;
 		for(i=0; i<4; i++)
@@ -159,30 +211,42 @@ void DFS(int x, int y, int dir, int sum)
 			printf("\n");
 		}
 	}
-	*/
-	for(i=0; i<3; i++)
-	{
-		if(!map[nx][ny].a)
-			continue;
-		else
-		{
-			fishNum = map[nx][ny].a;
-			sharkTime(x, y, nx, ny, fishNum, 1);
+		printf("after1\n");
+
+
 			DFS(nx, ny, map[nx][ny].b, sum+fishNum);
 			sharkTime(x, y, nx, ny, fishNum, 2);
+		printf("before2\n");
+	{
+		int i, j;
+		for(i=0; i<4; i++)
+		{
+			for(j=0; j<4; j++)
+				printf("%d(%d) ", map[i][j].a, map[i][j].b);
+			printf("\n");
+		}
+	}
+
+		printf("after2\n");
+
+
 		}
 
 		nx = x + dx[dir] * (i+2);
-		ny = y + dx[dir] * (i+2);
+		ny = y + dy[dir] * (i+2);
 		if(!isBound(nx, ny))
-			return;
+			break;
+
 	}
+
+	copyState(C_MAP, map, C_FISH, fish);
 }
 
 
 int main(void)
 {
 	int i, j;
+	int temp;
 
 	for(i=0; i<4; i++)
 		for(j=0; j<4; j++)
@@ -196,10 +260,36 @@ int main(void)
 			fish[ map[i][j].a -1 ].y = j;
 		}
 
+	/*
+	{
+		Map C_MAP[4][4];
+		Fish C_FISH[16];
+		copyState(map, C_MAP, fish, C_FISH);
+
+		int i, j;
+		sharkTime(0, 0, 1, 1, 12, 1);
+		sharkTime(0, 0, 1, 1, 12, 2);
+
+		for(i=0; i<4; i++)
+		{
+			for(j=0; j<4; j++)
+				printf("%d ", C_MAP[i][j].a);
+			printf("\n");
+		}
+	}
+	*/
+
+
+
+
+
+
+
 	fish[ map[0][0].a -1 ].dead = 1;
+	temp = map[0][0].a;
 	map[0][0].a = -1;
 	
-	DFS(0, 0, map[0][0].b, map[0][0].a);
+	DFS(0, 0, map[0][0].b, temp);
 	printf("%d", ans);
 	return 0;
 }

@@ -13,7 +13,7 @@ void green()
 
 	if(list[0] == 1)
 	{
-		for(i=5; i<=9; i++)
+		for(i=9; i>=5; i--)
 			if(!map[i][list[2]] && map[i+1][list[2]])
 			{
 				map[i][list[2]] = 1;
@@ -22,7 +22,7 @@ void green()
 	}
 	else if(list[0] == 2) // horizontal
 	{
-		for(i=5; i<=9; i++)
+		for(i=9; i>=5; i--)
 			if(!map[i][list[2]] && !map[i][list[2]+1] && (map[i+1][list[2]] || map[i+1][list[2]+1]))
 			{
 				map[i][list[2]] = map[i][list[2]+1] = 1;
@@ -30,7 +30,7 @@ void green()
 			}
 	}
 	else // vertical
-		for(i=5; i<=9; i++)
+		for(i=9; i>=5; i--)
 			if(!map[i][list[2]] && map[i+1][list[2]])
 			{
 				map[i][list[2]] = map[i-1][list[2]] = 1;
@@ -73,7 +73,7 @@ void blue()
 
 	if(list[0] == 1)
 	{
-		for(i=5; i<=9; i++)
+		for(i=9; i>=5; i--)
 			if(!map[list[1]][i] && map[list[1]][i+1])
 			{
 				map[list[1]][i] = 1;
@@ -82,7 +82,7 @@ void blue()
 	}
 	else if(list[0] == 3) // vertical
 	{
-		for(i=5; i<=9; i++)
+		for(i=9; i>=5; i--)
 			if(!map[list[1]][i] && !map[list[1]+1][i] && (map[list[1]][i+1] || map[list[1]+1][i+1]))
 			{
 				map[list[1]][i] = map[list[1]+1][i] = 1;
@@ -90,7 +90,7 @@ void blue()
 			}
 	}
 	else
-		for(i=5; i<=9; i++)
+		for(i=9; i>=5; i--)
 			if(!map[list[1]][i] && map[list[1]][i+1])
 			{
 				map[list[1]][i] = map[list[1]][i-1] = 1;

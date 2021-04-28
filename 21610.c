@@ -105,27 +105,6 @@ void rain(void)
 				if(num == cloudnum)
 					return;
 			}
-
-	/*
-	num = 0;
-	for(i=0; i<N; i++)
-		for(j=0; j<N; j++)
-			if(map[i][j].cloud)
-			{
-				for(k=0; k<4; k++)
-				{
-					tempx = i + dx[2*k + 1];
-					tempy = j + dy[2*k + 1];
-					if(!isBound(tempx, tempy))
-						continue;
-					else if(map[tempx][tempy].pond)
-						map[i][j].pond++;
-				}
-				num++;
-				if(num == cloudnum)
-					return;
-			}
-	*/
 }
 
 void makecloud()
@@ -142,19 +121,6 @@ void makecloud()
 				map[i][j].pond -= 2;
 				cloudnum++;
 			}
-
-	/*
-	{
-int i, j;
-for(i=0; i<N; i++)
-{
-	for(j=0; j<N; j++)
-		printf("%d(%d) ", map[i][j].pond, map[i][j].cloud);
-	printf("\n");
-}
-printf("\n");
-}
-*/
 }
 
 void solve()
@@ -170,13 +136,14 @@ void solve()
 	}
 }
 
-int cal()
+void cal()
 {
 	int i, j;
 
 	for(i=0; i<N; i++)
 		for(j=0; j<N; j++)
 			ans += map[i][j].pond;
+
 }
 
 

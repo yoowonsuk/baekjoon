@@ -199,10 +199,10 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 		for(k=0; k<len; k++)
 		{
 			j += sign;
-			temp = isBound();
-			if(!temp)
+			//temp = isBound();
+			if(!arr[where])
 				return;
-			map[i][j] = temp;
+			map[i][j] = arr[where++];
 		}
 		if(i == 0 && j == 0)
 			return;
@@ -210,10 +210,10 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 		for(k=0; k<len; k++)
 		{
 			i+= sign;
-			temp = isBound();
-			if(!temp)
+			//temp = isBound();
+			if(!arr[where])
 				return;
-			map[i][j] = temp;
+			map[i][j] = arr[where++];
 		}
 		len++;
 		if(len == N)

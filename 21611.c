@@ -235,10 +235,8 @@ void solve()
 			done = 1;
 			four(); // good
 		}
-		arrprint();
 		memset(map, 0, sizeof(map));
 		rearrange();
-		arrprint();
 		mapping(2);
 		maprint();
 	}

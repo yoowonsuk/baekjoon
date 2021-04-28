@@ -58,13 +58,6 @@ void arrprint()
 	printf("\n");
 }
 
-int isBound()
-{
-	while(arr[where] == -1)
-		where++;
-	return arr[where++];
-}
-
 void blizzard()
 {
 	int i;
@@ -90,7 +83,7 @@ void four()
 	int last;
 	int count = 0;
 
-	for(i=0; i<=num-3; i++)
+	for(i=0; i<=num-4; i++)
 		if(arr[i] == arr[i+1] && arr[i] == arr[i+2] && arr[i] == arr[i+3])
 		{
 			done = 0;
@@ -199,7 +192,6 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 		for(k=0; k<len; k++)
 		{
 			j += sign;
-			//temp = isBound();
 			if(!arr[where])
 				return;
 			map[i][j] = arr[where++];
@@ -210,7 +202,6 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 		for(k=0; k<len; k++)
 		{
 			i+= sign;
-			//temp = isBound();
 			if(!arr[where])
 				return;
 			map[i][j] = arr[where++];

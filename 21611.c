@@ -84,7 +84,7 @@ void blizzard()
 	which++;
 }
 
-int four()
+void four()
 {
 	int i, j;
 	int last;
@@ -109,6 +109,7 @@ int four()
 		if(arr[i] != -1)
 			arr[j++] = arr[i];
 	//printf("num: %d, count: %d\n", num, count);
+	arr[j] = 0;
 	num -= count;
 }
 
@@ -203,11 +204,8 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 				return;
 			map[i][j] = temp;
 		}
-		if(i == 1 && j == 1)
-		{
-			num = index;
+		if(i == 0 && j == 0)
 			return;
-		}
 		sign *=-1;
 		for(k=0; k<len; k++)
 		{
@@ -237,8 +235,10 @@ void solve()
 			done = 1;
 			four(); // good
 		}
+		arrprint();
 		memset(map, 0, sizeof(map));
 		rearrange();
+		arrprint();
 		mapping(2);
 		maprint();
 	}

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #define NMAX 49
 #define MMAX 100
@@ -15,6 +16,7 @@ int dx[] = {-1, 1, 0, 0};
 int dy[] = {0, 0, -1, 1};
 
 int which;
+int where;
 int num;
 int ans;
 
@@ -47,6 +49,12 @@ void arrprint()
 	printf("\n");
 }
 
+int isBound()
+{
+	while(arr[where] == -1)
+		where++;
+	return arr[where++];
+}
 
 void blizzard()
 {
@@ -92,8 +100,10 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 	int sign = -1, len = 1;
 	int index = 0;
 	int finish = 0;
+	int temp;
 
 	i = j = (N-1)/2;
+	where = 0;
 
 	/* num means how many */
 	while(what == 1)
@@ -141,14 +151,10 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 		for(k=0; k<len; k++)
 		{
 			j += sign;
-			if(arr[index] == -1)
-				continue;
-			if(!arr[index])
-			{
-				num = index;
+			temp = isBound();
+			if(!temp)
 				return;
-			}
-			map[i][j] = arr[index++];
+			map[i][j] = temp;
 		}
 		if(i == 1 && j == 1)
 		{
@@ -159,14 +165,10 @@ void mapping(int what) // what = 1 map -> arr, what = 2 arr -> map
 		for(k=0; k<len; k++)
 		{
 			i+= sign;
-			if(arr[index] == -1)
-				continue;
-			if(!arr[index])
-			{
-				num = index;
+			temp = isBound();
+			if(!temp)
 				return;
-			}
-			map[i][j] = arr[index++];
+			map[i][j] = temp;
 		}
 		len++;
 		if(len == N)
@@ -183,9 +185,8 @@ void solve()
 		blizzard();
 		mapping(1);
 		four();
-		arrprint();
+		memset(map, 0, sizeof(map));
 		mapping(2);
-		maprint();
 	}
 }
 

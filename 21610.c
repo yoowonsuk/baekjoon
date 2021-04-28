@@ -4,6 +4,8 @@
 #define NMAX 50
 #define MMAX 100
 
+void mapprint();
+
 int dx[] = {0, -1, -1, -1, 0, 1, 1, 1};
 int dy[] = {-1, -1, 0, 1, 1, 1, 0, -1};
 
@@ -20,7 +22,7 @@ int s[MMAX];
 
 int N, M;
 int ans;
-int which;
+int which = -1;
 int cloudnum = 4;
 
 int isBound(int x, int y)
@@ -35,6 +37,7 @@ void cloudmove()
 	int i, j;
 	int num = 0;
 
+	which++;
 	for(i=0; i<N; i++)
 		for(j=0; j<N; j++)
 			if(map[i][j].cloud)
@@ -70,7 +73,6 @@ void cloudmove()
 								if(num == cloudnum)
 								{
 									memset(temp, 0, sizeof(temp));
-									which++;
 									return;
 								}
 							}
@@ -128,12 +130,27 @@ void solve()
 	int i;
 	map[N-1][0].cloud = map[N-2][0].cloud = map[N-1][1].cloud = map[N-2][1].cloud = 1;
 
+
 	for(i=0; i<M; i++)
 	{
 		cloudmove();
 		rain();
 		makecloud();
 	}
+}
+
+
+void mapprint()
+{
+	int i, j;
+
+	for(i=0; i<N; i++)
+	{
+		for(j=0; j<N; j++)
+			printf("%d(%d) ", map[i][j].pond, map[i][j].cloud);
+		printf("\n");
+	}
+	printf("\n");
 }
 
 void cal()

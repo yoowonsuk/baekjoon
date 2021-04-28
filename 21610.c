@@ -15,7 +15,14 @@ typedef struct
 } MAP;
 
 MAP map[NMAX][NMAX];
-MAP temp[NMAX][NMAX];
+//MAP temp[NMAX][NMAX];
+
+typedef struct
+{
+	int x, y;
+} Data;
+
+Data data[NMAX*NMAX];
 
 int d[MMAX];
 int s[MMAX];
@@ -56,11 +63,14 @@ void cloudmove()
 					tempy -= N;
 
 				map[i][j].cloud = 0;
-				temp[tempx][tempy].cloud = 1;
+				//temp[tempx][tempy].cloud = 1;
+				data[num].x = tempx;
+				data[num].y = tempy;
 				num++;
 
 				if(num == cloudnum)
 				{
+					/*
 					int i, j;
 					num = 0;
 					for(i=0; i<N; i++)
@@ -77,6 +87,13 @@ void cloudmove()
 								}
 							}
 						}
+					*/
+					while(num)
+					{
+						num--;
+						map[data[num.x]][data[num].y].cloud = 1;
+					}
+					return;
 				}
 
 			}

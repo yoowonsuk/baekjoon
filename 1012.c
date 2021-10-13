@@ -2,7 +2,7 @@
 #include <string.h>
 
 int dx[] = {1, 0, -1, 0};
-int dy[] = {0, -1, -1, 1};
+int dy[] = {0, -1, 0, 1};
 
 int arr[50][50];
 
@@ -11,30 +11,30 @@ int count;
 
 int isBound(int x, int y)
 {
-	return x >= 0 && x < N && y >= 0 && y < M;
+	return x >= 0 && x < M && y >= 0 && y < N;
 }
 
 void search(int x, int y)
 {
 	int i, j;
+    
+    arr[x][y] = 0;
 	for(i=0; i<4; i++)
 		for(j=0; j<4; j++)
 			if( !(isBound(x+dx[i], y+dy[i])) )
 				continue;
 			else
 				if(arr[x+dx[i]][y+dy[i]])
-				{
-					arr[x+dx[i]][y+dy[i]] = 0;
 					search(x+dx[i], y+dy[i]);
-				}
+				
 }
 
 void sol()
 {
 	int i, j;
 
-	for(i=0; i<N; i++)
-		for(j=0; j<M; j++)
+	for(i=0; i<M; i++)
+		for(j=0; j<N; j++)
 			if(arr[i][j])
 			{
 				count++;
@@ -66,4 +66,3 @@ int main(void)
 	}
 	return 0;
 }
-			

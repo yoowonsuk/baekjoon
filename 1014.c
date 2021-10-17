@@ -2,7 +2,7 @@
 #include <string.h>
 
 #define NMAX 10
-#define MMAX 10
+#define MMAX 11
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 int C;

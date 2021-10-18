@@ -3,21 +3,27 @@
 
 int main(void)
 {
-	int min, max;
+	long long min, max;
 	int count = 0;
-	double temp;
-	int i;
+	int i, j;
+	long long temp;
 
-	scanf("%d %d", &min, &max);
-
+	scanf("%lld %lld", &min, &max);
+	temp = (long long)sqrt((double)max);
 	for(i=min; i<=max; i++)
-	{
-		temp = sqrt(i);
-		if(floor(temp) != temp)
-			count++;
-	}
+		for(j=2; j<= temp; j++)
+		{
+			if(i%(j*j) == 0)
+			{
+				count++;
+				break;
+			}
+			else if(i / (j*j) == 0)
+				break;
+		}
 
-	printf("%d", count);
+
+	printf("%d", max-min+1+count);
 	return 0;
 }
 
